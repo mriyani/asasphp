@@ -3,10 +3,11 @@
 // 9 PHP predefined variables that can be always accessible, regardless of scope 
 // $GLOBALS, $_SERVER, $_REQUEST, $_POST, $_GET, $_FILES, $_ENV, $_COOKIE, $_SESSION
 
-// var_dump($_SERVER);
-
 // $_GET
 // var_dump($_GET);
+
+// var_dump($_SERVER);
+// echo $_SERVER['SERVER_NAME'];
 
 $pelajar = [
     [
@@ -22,7 +23,14 @@ $pelajar = [
         "email" => "email@yuhoo.com",
         "kursus" => "Sistem Komputer",
         "gambar" => "woman.png"
-    ]
+    ],
+    [
+        "nama" => "Cahaya Purnama",
+        "ndp" => "741852369",
+        "email" => "nur@purnama.com",
+        "kursus" => "Baking",
+        "gambar" => "girl.png"
+    ],  
 ];
 
 ?>
@@ -30,8 +38,12 @@ $pelajar = [
 <style>
     img {
         width: 50px;
-        height: auto,
-    };
+        height: auto;
+    }
+
+    a {
+        text-decoration: none;
+    }
 </style>
 
 <!DOCTYPE html>
@@ -42,23 +54,21 @@ $pelajar = [
     <title>GET</title>
 </head>
 <body>
-<h1>Daftar Pelajar</h1>
-<?php foreach( $pelajar as $pljr ) : ?>
+    <h1>Senarai Pelajar</h1>
     <ul>
-        <li><img src="img/<?= $pljr["gambar"]; ?>" alt="Profile"></li>
-        <li><?= $pljr["nama"]; ?></li>
-        <li><?= $pljr["ndp"]; ?></li>
-        <li><?= $pljr["email"]; ?></li>
-        <li><?= $pljr["kursus"]; ?></li>
+        <?php foreach( $pelajar as $pljr ) : ?>
+            <li>
+                <a href="12_getpost_detail.php?nama=<?= $pljr["nama"]; ?>"><?= $pljr["nama"]; ?></a>
+            </li>
+        <?php endforeach ?>
     </ul>
-<?php endforeach ?>
 </body>
 </html>
 
 
-
-
-
 <?php
+
 //$_POST
 //var_dump($_POST);
+
+?>
