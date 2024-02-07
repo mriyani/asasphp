@@ -22,14 +22,21 @@ $pelajar = [
         "ndp" => "654123",
         "email" => "email@yuhoo.com",
         "kursus" => "Sistem Komputer",
-        "gambar" => "woman.png"
+        "gambar" => "girl.png"
+    ],
+    [
+        "nama" => "Aboy Hensome",
+        "ndp" => "456987123",
+        "email" => "email@boboy.com",
+        "kursus" => "Pomen",
+        "gambar" => "boy.png"
     ],
     [
         "nama" => "Cahaya Purnama",
         "ndp" => "741852369",
         "email" => "nur@purnama.com",
         "kursus" => "Baking",
-        "gambar" => "girl.png"
+        "gambar" => "woman.png"
     ],  
 ];
 
@@ -58,7 +65,7 @@ $pelajar = [
     <ul>
         <?php foreach( $pelajar as $pljr ) : ?>
             <li>
-                <a href="12_getpost_detail.php?nama=<?= $pljr["nama"]; ?>"><?= $pljr["nama"]; ?></a>
+                <a href="12_getpost_detail.php?nama=<?= $pljr["nama"]; ?>&ndp=<?= $pljr["ndp"]; ?>&email=<?= $pljr["email"]; ?>&kursus=<?= $pljr["kursus"]; ?>&gambar=<?= $pljr["gambar"]; ?>"><?= $pljr["nama"]; ?></a>
             </li>
         <?php endforeach ?>
     </ul>
