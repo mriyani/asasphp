@@ -11,10 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Perform authentication (replace this with your actual authentication logic)
     $authenticated = authenticateUser($username, $password);
 
+    
     if ($authenticated) {
         // Store username in session
         $_SESSION['username'] = $username;
-
+        
         // Redirect to the user dashboard or another authenticated page
         header("Location: 14_post_dashboard.php");
         exit();
@@ -25,13 +26,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Function to authenticate user (replace this with your actual authentication logic)
-function authenticateUser($username, $password)
-{
+function authenticateUser($username, $password) {
     // Implement your authentication logic, such as checking against a database
     // For demonstration purposes, let's assume a simple check
     $validUsername = 'Admin';
     $validPasswordHash = password_hash('123', PASSWORD_DEFAULT);
-
+    $_SESSION['passhash'] = $validPasswordHash;
     return $username === $validUsername && password_verify($password, $validPasswordHash);
 }
 

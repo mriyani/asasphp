@@ -6,6 +6,7 @@ if (!isset($_SESSION["username"])) {
 } else {
     // Grab data 
     $username = $_SESSION['username'];
+    $passhash = $_SESSION['passhash'];
 }
 
 ?>
@@ -18,11 +19,12 @@ if (!isset($_SESSION["username"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
 </head>
-
 <body>
+    <?= var_dump($_SESSION) ?>
     <h1>Selamat Datang,
         <?= $username; ?>
     </h1>
+    <p>Hash: <?= $passhash;?></p>
     <a href="13_post_login.php">Logout</a>
 </body>
 
