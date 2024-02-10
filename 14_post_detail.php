@@ -1,3 +1,23 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    // Redirect to a login page
+    header("Location: 13_post_login.php");
+    exit();
+} else {
+    // Grab data 
+    $username = $_SESSION['username'];
+    $nama = $_SESSION['nama'];
+    $gambar = $_SESSION['gambar'];
+    $ndp = $_SESSION['ndp'];
+    $email = $_SESSION['email'];
+    $kursus = $_SESSION['kursus'];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,16 +26,16 @@
     <title>User Profile</title>
 </head>
 <body>
-    <!-- <?php var_dump($_GET); ?> -->
+    <?php var_dump($_SESSION); ?>
     <h1>User Profil</h1>
-    <img width="80px" height="auto" src=img/<?= $_GET['img']; ?> >
-    <h1>Selamat Datang, <?= $_GET['name']; ?></h1>
+    <img width="80px" height="auto" src=img/<?= $gambar; ?> >
+    <h1>Selamat Datang, <?= $nama; ?></h1>
     <ul>
-        <li>NDP: <?= $_GET['ndp']; ?></li>
-        <li>Email: <?= $_GET['email']; ?></li>
-        <li>Kursus: <?= $_GET['kursus']; ?></li>
+        <li>NDP: <?= $ndp; ?></li>
+        <li>Email: <?= $email; ?></li>
+        <li>Kursus: <?= $kursus; ?></li>
     </ul>
 
-    <a href="13_post_login.php">Logout</a>
+    <a href="15_post_logout.php">Logout</a>
 </body>
 </html>

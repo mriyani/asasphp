@@ -1,84 +1,103 @@
 <?php
 
+// Start session
+session_start();
+
+ ?>
+
+<?php
+
 $pelajar = [
     [
         "username" => "riyani",
         "nama" => "Muhammad Riyani",
         "ndp" => "0123654",
-        "email" => "email@yehaa.com",
+        "email" => "riyani@yehaa.com",
         "kursus" => "Rangkaian Komputer",
         "gambar" => "man.png",
-        "password" => "123"
+        "password" => password_hash("123", PASSWORD_DEFAULT)  // Hashing the password
     ],  
     [
         "username" => "amni",
         "nama" => "Nur Amni",
         "ndp" => "654123",
-        "email" => "email@yuhoo.com",
+        "email" => "amni@yuhoo.com",
         "kursus" => "Sistem Komputer",
         "gambar" => "girl.png",
-        "password" => "123"
+        "password" => password_hash("123", PASSWORD_DEFAULT)  // Hashing the password
     ],
     [
         "username" => "aboy",
         "nama" => "Aboy Hensome",
         "ndp" => "456987123",
-        "email" => "email@boboy.com",
+        "email" => "aboy@boboy.com",
         "kursus" => "Pomen",
         "gambar" => "boy.png",
-        "password" => "123"
+        "password" => password_hash("123", PASSWORD_DEFAULT)  // Hashing the password
     ],
     [
         "username" => "cahaya",
         "nama" => "Cahaya Purnama",
         "ndp" => "741852369",
-        "email" => "nur@purnama.com",
+        "email" => "cahaya@purnama.com",
         "kursus" => "Baking",
         "gambar" => "woman.png",
-        "password" => "123"
+        "password" => password_hash("123", PASSWORD_DEFAULT)  // Hashing the password
     ],  
 ];
 
 ?>
 
 <?php
-// Semak butang Login ditekan
-if (isset($_POST['submit'])) {
 
-    // Semak username dan password diberikan oleh user
-    if (isset($_POST['username']) && isset($_POST['password'])) {
-        global $pelajar;
+// Check if the form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize input
+    $username = htmlspecialchars($_POST['username']);
+    $password = htmlspecialchars($_POST['password']);
 
-        // Simpan data ndp dan password ke dalam variable
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+    // Perform authentication (replace this with your actual authentication logic)
+    $authenticated = authenticateUser($username, $password,$pelajar);
 
-        // Loop ke dalam array $pelajar untuk cek username dan password
-        foreach ($pelajar as $pelajar1) {
-            if ($pelajar1['username'] == $username && $pelajar1['password'] == $password) {
+    if ($authenticated) {
+        $_SESSION['login'] = true;
 
-                // Jika BETUL, redirect ke User Profil
-                $nama = $pelajar1['nama'];
-                $gambar = $pelajar1['gambar'];
-                $ndp = $pelajar1['ndp'];
-                $email = $pelajar1['email'];
-                $kursus = $pelajar1['kursus'];
-                header('Location: 14_post_detail.php?name=' . $nama . '&img='. $gambar . '&ndp=' . $ndp . '&email=' . $email . '&kursus=' . $kursus);
-                exit();
-            }
+        // Redirect to the user profile
+        header("Location: 14_post_detail.php");
+        exit();
+        } else {
+        // Authentication failed, display an error message
+        $_SESSION['error'] = "Invalid username or password";
         }
-        // Jika SALAH, paparkan error message
-        $error = true;
+}
 
-    } else {
-        // Jika SALAH, paparkan error message
-        $error = true;
+// Function to authenticate user
+function authenticateUser($username, $password,$pelajar) {
+    // Implement your authentication logic, such as checking against a database
+    // For demonstration purposes, let's assume a simple check
+    
+    foreach ($pelajar as $pelajar1) {
+        $validUsername = $pelajar1['username'];
+        $validPasswordHash = $pelajar1['password'];
+
+        if ($username === $validUsername && password_verify($password, $validPasswordHash)) {
+
+            // Save user data in session
+            $_SESSION['username'] = $pelajar1['username'];
+            $_SESSION['nama'] = $pelajar1['nama'];
+            $_SESSION['gambar'] = $pelajar1['gambar'];
+            $_SESSION['ndp'] = $pelajar1['ndp'];
+            $_SESSION['email'] = $pelajar1['email'];
+            $_SESSION['kursus'] = $pelajar1['kursus'];
+
+            return true;
+        }
     }
 
+    return false;
 }
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,10 +107,15 @@ if (isset($_POST['submit'])) {
     <title>Login</title>
 </head>
 <body>
+    <?php var_dump($_SESSION) ?>
     <h1>User Login</h1>
-<?php if (isset($error)) { ?>
-    <p style="color: salmon; font-style: italic;">Username @ Password SALAH!</p>
-<?php } ?>
+    <?php
+    // Display error message if authentication failed
+    if (isset($_SESSION['error'])) {
+        echo '<p style="color: salmon;">' . $_SESSION['error'] . '</p>';
+        unset($_SESSION['error']);
+    }
+    ?>
 
     <form action="" method="POST">
         <label for="username">Username:</label><br>
