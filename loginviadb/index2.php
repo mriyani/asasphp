@@ -1,6 +1,34 @@
 <?php
-require_once '1_functions.php';
-$pelajar = query('SELECT * FROM pelajar');
+
+// Sambungan ke database
+$condb = mysqli_connect('localhost', 'root', '', 'asasphp');
+
+// Query / Ambil data dari table palajar
+$result = mysqli_query($condb, 'SELECT * FROM pelajar');
+
+// Ambil (fetch) data dari table pelajar dari $result ada 4 cara:
+
+// 1. mysqli_fetch_row() => return indexes @ numeric array
+// $pljr = mysqli_fetch_row($result);
+// var_dump($pljr[5]);
+
+// 2. mysqli_fetch_assoc() => return associative array [PREFERED]
+// $pljr = mysqli_fetch_assoc($result);
+// var_dump($pljr['email']); 
+
+// 3. mysqli_fetch_array() => return both numeric and associative arrays
+// $pljr = mysqli_fetch_array($result);
+// var_dump($pljr[5]);
+// var_dump($pljr['email']);
+
+// 4. mysqli_fetch_object() => return data in an object
+// $pljr = mysqli_fetch_object($result);
+// var_dump($pljr->email); // access fnama key fetch result in $pljr 
+
+?>
+
+<?php
+
 
 ?>
 
@@ -15,7 +43,6 @@ $pelajar = query('SELECT * FROM pelajar');
 
 <body>
     <h1>Senarai Pelajar</h1>
-    <? var_dump($pelajar); ?>
 
     <table border="1" cellpadding="10" cellspacing="0">
 
@@ -30,7 +57,7 @@ $pelajar = query('SELECT * FROM pelajar');
         </tr>
 
         <?php $i = 1; ?>
-        <?php foreach ($pelajar as $row ) : ?>
+        <?php while ($row = mysqli_fetch_assoc($result)) : ?>
             <tr>
                 <td><?= $i; ?></td>
                 <td><img src="../img/<?= $row['gambar']; ?>" width="45px"></td>
@@ -44,7 +71,7 @@ $pelajar = query('SELECT * FROM pelajar');
                 </td>
             </tr>
             <?php $i++; ?>
-        <?php endforeach; ?>
+        <?php endwhile; ?>
 
     </table>
 
