@@ -53,8 +53,8 @@ $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
                     <?= $row['kursus'] ?>
                 </td>
                 <td>
-                    <a href=""><img width="25px" src="../img/edit.png"></a>
-                    <a href=""><img width="25px" src="../img/delete.png"></a>
+                    <a href="4_edit.php?id=<?= $row['id'] ?>"><img width="25px" src="../img/edit.png"></a>
+                    <a href="3_delete.php?id=<?= $row['id'] ?>"><img width="25px" src="../img/delete.png"></a>
                 </td>
             </tr>
             <?php $i++; ?>

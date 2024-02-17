@@ -22,6 +22,7 @@ function ambildata($condb, $query)
     return $rows;
 }
 
+// Fungsi daftar pelajar
 function daftar($condb, $data)
 {
 
@@ -49,6 +50,14 @@ function daftar($condb, $data)
 
     // Run query
     mysqli_query($condb, $query);
+
+    return mysqli_affected_rows($condb);
+}
+
+// Fungsi delete pelajar
+function padampelajar($condb, $id)
+{
+    mysqli_query($condb, "DELETE FROM pelajar WHERE id = $id");
 
     return mysqli_affected_rows($condb);
 }
