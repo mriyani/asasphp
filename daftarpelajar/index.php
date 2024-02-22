@@ -34,7 +34,7 @@ $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
         </tr>
 
         <?php $i = 1; ?>
-        <?php foreach ($pelajar as $row) : ?>
+        <?php foreach ($pelajar as $row): ?>
             <tr>
                 <td>
                     <?= $i; ?>
@@ -54,7 +54,9 @@ $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
                 </td>
                 <td>
                     <a href="4_edit.php?id=<?= $row['id'] ?>"><img width="25px" src="../img/edit.png"></a>
-                    <a href="3_delete.php?id=<?= $row['id'] ?>"><img width="25px" src="../img/delete.png"></a>
+                    <a href="3_delete.php?id=<?= $row['id'] ?>"
+                        onclick="return confirm('Adakah anda yakin untuk memadam data <?= $row['fname'] . ' ' . $row['lname'] ?>?');"><img
+                            width="25px" src="../img/delete.png"></a>
                 </td>
             </tr>
             <?php $i++; ?>
