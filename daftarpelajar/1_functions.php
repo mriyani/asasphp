@@ -9,8 +9,7 @@ if (!$condb) {
 }
 
 // Query function
-function ambildata($condb, $query)
-{
+function ambildata($condb, $query) {
     $result = mysqli_query($condb, $query); //Query
     $rows = [];
     while ($row = mysqli_fetch_assoc($result)) {
@@ -23,17 +22,16 @@ function ambildata($condb, $query)
 }
 
 // Fungsi daftar pelajar
-function daftar($condb, $data)
-{
+function daftar($condb, $daftar) {
 
     // Simpan setiap data dari post $data ke dalam variables
-    $fname = htmlspecialchars($data['fname']);
-    $lname = htmlspecialchars($data['lname']);
-    $nokp = htmlspecialchars($data['nokp']);
-    $ndp = htmlspecialchars($data['ndp']);
-    $email = htmlspecialchars($data['email']);
-    $kursus = htmlspecialchars($data['kursus']);
-    $gambar = htmlspecialchars($data['gambar']);
+    $fname = htmlspecialchars($daftar['fname']);
+    $lname = htmlspecialchars($daftar['lname']);
+    $nokp = htmlspecialchars($daftar['nokp']);
+    $ndp = htmlspecialchars($daftar['ndp']);
+    $email = htmlspecialchars($daftar['email']);
+    $kursus = htmlspecialchars($daftar['kursus']);
+    $gambar = htmlspecialchars($daftar['gambar']);
 
     // Query INSERT data ke dalam database
     $query = "INSERT INTO pelajar
@@ -55,9 +53,40 @@ function daftar($condb, $data)
 }
 
 // Fungsi delete pelajar
-function padampelajar($condb, $id)
-{
+function padampelajar($condb, $id) {
     mysqli_query($condb, "DELETE FROM pelajar WHERE id = $id");
 
     return mysqli_affected_rows($condb);
+}
+
+// Fungsi edit pelajar
+function edit($condb, $edit) {
+
+    $id = $edit['id'];
+    $fname = htmlspecialchars($edit['fname']);
+    $lname = htmlspecialchars($edit['lname']);
+    $nokp = htmlspecialchars($edit['nokp']);
+    $ndp = htmlspecialchars($edit['ndp']);
+    $email = htmlspecialchars($edit['email']);
+    $kursus = htmlspecialchars($edit['kursus']);
+    $gambar = htmlspecialchars($edit['gambar']);
+
+    // Query UPDATE data ke dalam database
+    $query = "UPDATE pelajar SET
+     fname = '$fname',
+     lname = '$lname',
+     nokp = '$nokp',
+     ndp = '$ndp',
+     email = '$email',
+     kursus = '$kursus',
+     gambar = '$gambar'
+
+     WHERE id = $id
+     ";
+
+    // Run query
+    mysqli_query($condb, $query);
+
+    return mysqli_affected_rows($condb);
+    
 }
