@@ -4,6 +4,11 @@ require_once '1_functions.php';
 
 $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
 
+// Check button search
+if (isset($_POST['cari'])) {
+    $pelajar = cari($condb, $_POST['keyword']);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +26,12 @@ $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
     <a href="2_daftar.php">Daftar Pelajar</a>
     <br><br>
 
+    <form action="" method="POST">
+        <input type="text" name="keyword" size="25" autofocus placeholder="Carian data pelajar" autocomplete="off">
+        <button type="submit" name="cari">Cari</button>
+    </form>
+    <br>
+
     <table border="1" cellpadding="10" cellspacing="0">
 
         <tr>
@@ -34,7 +45,7 @@ $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
         </tr>
 
         <?php $i = 1; ?>
-        <?php foreach ($pelajar as $row): ?>
+        <?php foreach ($pelajar as $row) : ?>
             <tr>
                 <td>
                     <?= $i; ?>
@@ -54,9 +65,7 @@ $pelajar = ambildata($condb, 'SELECT * FROM pelajar');
                 </td>
                 <td>
                     <a href="4_edit.php?id=<?= $row['id'] ?>"><img width="25px" src="../img/edit.png"></a>
-                    <a href="3_delete.php?id=<?= $row['id'] ?>"
-                        onclick="return confirm('Adakah anda yakin untuk memadam data <?= $row['fname'] . ' ' . $row['lname'] ?>?');"><img
-                            width="25px" src="../img/delete.png"></a>
+                    <a href="3_delete.php?id=<?= $row['id'] ?>" onclick="return confirm('Adakah anda yakin untuk memadam data <?= $row['fname'] . ' ' . $row['lname'] ?>?');"><img width="25px" src="../img/delete.png"></a>
                 </td>
             </tr>
             <?php $i++; ?>

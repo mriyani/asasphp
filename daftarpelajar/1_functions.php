@@ -9,12 +9,20 @@ if (!$condb) {
 }
 
 // Query function
-function ambildata($condb, $query) {
+function ambildata($condb, $query)
+{
     $result = mysqli_query($condb, $query); //Query
+
+    // Check for query success
+    if (!$result) {
+        die("Query failed: " . mysqli_error($condb));
+    }
+
     $rows = [];
     while ($row = mysqli_fetch_assoc($result)) {
         $rows[] = $row; // Simpan assoc data ke dlm $row
     }
+
     // Free result set
     mysqli_free_result($result);
 
@@ -22,7 +30,8 @@ function ambildata($condb, $query) {
 }
 
 // Fungsi daftar pelajar
-function daftar($condb, $daftar) {
+function daftar($condb, $daftar)
+{
 
     // Simpan setiap data dari post $data ke dalam variables
     $fname = htmlspecialchars($daftar['fname']);
@@ -53,14 +62,16 @@ function daftar($condb, $daftar) {
 }
 
 // Fungsi delete pelajar
-function padampelajar($condb, $id) {
+function padampelajar($condb, $id)
+{
     mysqli_query($condb, "DELETE FROM pelajar WHERE id = $id");
 
     return mysqli_affected_rows($condb);
 }
 
 // Fungsi edit pelajar
-function edit($condb, $edit) {
+function edit($condb, $edit)
+{
 
     $id = $edit['id'];
     $fname = htmlspecialchars($edit['fname']);
@@ -88,5 +99,20 @@ function edit($condb, $edit) {
     mysqli_query($condb, $query);
 
     return mysqli_affected_rows($condb);
-    
+}
+
+function cari($condb, $keyword)
+{
+    $query = "SELECT * FROM pelajar WHERE fname LIKE '%$keyword%' OR
+    ndp LIKE '%$keyword%' OR
+    lname LIKE '%$keyword%' OR
+    email LIKE '%$keyword%' OR
+    kursus LIKE '%$keyword%'
+    ";
+
+    // Recall ambildata function to execute the query and retrieve results
+    $rows = ambildata($condb, $query);
+
+    // Process the $rows data
+    return $rows;
 }
