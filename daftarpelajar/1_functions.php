@@ -40,7 +40,12 @@ function daftar($condb, $daftar)
     $ndp = htmlspecialchars($daftar['ndp']);
     $email = htmlspecialchars($daftar['email']);
     $kursus = htmlspecialchars($daftar['kursus']);
-    $gambar = htmlspecialchars($daftar['gambar']);
+
+    // Upload gambar
+    $gambar = upload($nokp);
+    if (!$gambar) {
+        return false;
+    }
 
     // Query INSERT data ke dalam database
     $query = "INSERT INTO pelajar
@@ -59,6 +64,61 @@ function daftar($condb, $daftar)
     mysqli_query($condb, $query);
 
     return mysqli_affected_rows($condb);
+}
+
+// Fungsi upload gambar
+function upload($nokp)
+{
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // Cek jika tiada gambar diupload
+    if ($error === 4) {
+        echo "<script>
+                alert('Pilih gambar terlebih dahulu!');
+              </script>";
+        return false;
+    }
+
+    // Cek jika hanya format gambar diupload
+    $extGambarValid = ['jpg', 'jpeg', 'png'];
+    $extGambar = explode('.', $namaFile);
+    $extGambar = strtolower(end($extGambar));
+
+    if (!in_array($extGambar, $extGambarValid)) {
+        echo "<script>
+                alert('Anda upload format gambar yang tidak dibenarkan!\\n (Hanya upload format gambar .jpg, atau .jpeg, atau .png)');
+              </script>";
+        return false;
+    }
+
+    // Cek jika saiz gambar < max (1048576 bytes ~~ 1MB)
+    $maxSize = 1048576;
+    if ($ukuranFile > $maxSize) {
+        echo "<script>
+                alert('Saiz gambar melebihi 1MB!');
+              </script>";
+        return false;
+    }
+
+    // Rename and save gambar to the directory img/ with $nokp
+
+    // Rename the file with .$extGambar
+    $newFileName = $nokp . '.' . $extGambar;
+
+    // Simpan gambar ke directory img/ with the new file name
+    $destination = 'C:/xampp/htdocs/asasphp/img/' . $newFileName;
+
+    if (move_uploaded_file($tmpName, $destination)) {
+        return $newFileName;
+    } else {
+        echo "<script>alert('Gagal menyimpan gambar!');</script>";
+        return false;
+    }
+
+
 }
 
 // Fungsi delete pelajar
