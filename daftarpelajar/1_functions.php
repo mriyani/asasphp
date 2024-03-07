@@ -5,7 +5,7 @@ $condb = mysqli_connect('localhost', 'root', '', 'asasphp');
 
 // Check DB connection
 if (!$condb) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Connection failed: " . mysqli_connect_errno() . " - " . mysqli_connect_error());
 }
 
 // Query function
@@ -29,6 +29,7 @@ function ambildata($condb, $query)
     return $rows;
 }
 
+
 // Fungsi daftar pelajar
 function daftar($condb, $daftar)
 {
@@ -42,7 +43,7 @@ function daftar($condb, $daftar)
     $kursus = htmlspecialchars($daftar['kursus']);
 
     // Upload gambar
-    $gambar = upload($nokp);
+    $gambar = upload($condb, $nokp); //value is $newFileName;
     if (!$gambar) {
         return false;
     }
@@ -66,11 +67,12 @@ function daftar($condb, $daftar)
     return mysqli_affected_rows($condb);
 }
 
+
 // Fungsi upload gambar
-function upload($nokp)
+function upload($condb, $nokp)
 {
     $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
+    $saizFile = $_FILES['gambar']['size'];
     $error = $_FILES['gambar']['error'];
     $tmpName = $_FILES['gambar']['tmp_name'];
 
@@ -84,10 +86,12 @@ function upload($nokp)
 
     // Cek jika hanya format gambar diupload
     $extGambarValid = ['jpg', 'jpeg', 'png'];
-    $extGambar = explode('.', $namaFile);
-    $extGambar = strtolower(end($extGambar));
 
-    if (!in_array($extGambar, $extGambarValid)) {
+    // $extGambar = explode('.', $namaFile);
+    $extGambar = pathinfo($namaFile, PATHINFO_EXTENSION);
+    $extGambarLower = strtolower($extGambar);
+
+    if (!in_array($extGambarLower, $extGambarValid)) {
         echo "<script>
                 alert('Anda upload format gambar yang tidak dibenarkan!\\n (Hanya upload format gambar .jpg, atau .jpeg, atau .png)');
               </script>";
@@ -96,7 +100,7 @@ function upload($nokp)
 
     // Cek jika saiz gambar < max (1048576 bytes ~~ 1MB)
     $maxSize = 1048576;
-    if ($ukuranFile > $maxSize) {
+    if ($saizFile > $maxSize) {
         echo "<script>
                 alert('Saiz gambar melebihi 1MB!');
               </script>";
@@ -104,12 +108,24 @@ function upload($nokp)
     }
 
     // Rename and save gambar to the directory img/ with $nokp
+    // Rename the file with $nokp.$extGambar
+    $newFileName = $nokp . '.' . $extGambarLower;
 
-    // Rename the file with .$extGambar
-    $newFileName = $nokp . '.' . $extGambar;
+    // Set img/ directory variable
+    $imgDir = '../img/';
 
-    // Simpan gambar ke directory img/ with the new file name
-    $destination = 'C:/xampp/htdocs/asasphp/img/' . $newFileName;
+    // Check if the file with the same name already exists
+    $destination = $imgDir . $newFileName;
+    if (file_exists($destination)) {
+        // Delete the existing file
+        unlink($destination);
+
+        // Empty gambar value in database
+        emptyGambar($condb, $nokp);
+    }
+
+    // Simpan gambar $tmpName ke directory img/ with the new file name
+    // $destination = $imgDir . $newFileName;
 
     if (move_uploaded_file($tmpName, $destination)) {
         return $newFileName;
@@ -117,8 +133,17 @@ function upload($nokp)
         echo "<script>alert('Gagal menyimpan gambar!');</script>";
         return false;
     }
+}
 
 
+// Fungsi delete nama gambar di dalam table pelajar sebelum simpan gambar baharu
+function emptyGambar($condb, $nokp)
+{
+    // Query to update the gambar field to NULL or an empty value
+    $query = "UPDATE pelajar SET gambar = NULL WHERE nokp = '$nokp'";
+
+    // Run query
+    mysqli_query($condb, $query);
 }
 
 // Fungsi delete pelajar
@@ -128,6 +153,7 @@ function padampelajar($condb, $id)
 
     return mysqli_affected_rows($condb);
 }
+
 
 // Fungsi edit pelajar
 function edit($condb, $edit)
@@ -140,7 +166,15 @@ function edit($condb, $edit)
     $ndp = htmlspecialchars($edit['ndp']);
     $email = htmlspecialchars($edit['email']);
     $kursus = htmlspecialchars($edit['kursus']);
-    $gambar = htmlspecialchars($edit['gambar']);
+    $gambarLama = htmlspecialchars($edit['gambarLama']);
+
+    // Cek jika ada gambar baru diupload
+    if ($_FILES['gambar']['error'] === 4) {
+        $gambar = $gambarLama;
+    } else {
+        // Run upload function and store the image name in $gambar
+        $gambar = upload($condb, $nokp);
+    }
 
     // Query UPDATE data ke dalam database
     $query = "UPDATE pelajar SET
@@ -152,8 +186,7 @@ function edit($condb, $edit)
      kursus = '$kursus',
      gambar = '$gambar'
 
-     WHERE id = $id
-     ";
+     WHERE id = $id";
 
     // Run query
     mysqli_query($condb, $query);

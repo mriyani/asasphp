@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2024 at 05:48 AM
+-- Generation Time: Mar 07, 2024 at 04:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,7 +35,7 @@ CREATE TABLE `pelajar` (
   `ndp` char(12) NOT NULL,
   `email` char(100) NOT NULL,
   `kursus` char(50) NOT NULL,
-  `gambar` char(12) NOT NULL
+  `gambar` char(17) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -43,13 +43,15 @@ CREATE TABLE `pelajar` (
 --
 
 INSERT INTO `pelajar` (`id`, `fname`, `lname`, `nokp`, `ndp`, `email`, `kursus`, `gambar`) VALUES
-(1, 'Muhammad Riyani', 'Makhtar', '000505101023', '190405062002', 'riyani@yehaa.com', 'Teknologi Keselamataan Siber', 'man.png'),
-(2, 'Cahaya Purnama', 'Malam Terang', '011011436226', '200405062001', 'cahaya@purnama.com', 'Teknologi Jahitan Pakaian', 'woman.png'),
-(3, 'John', 'Doe', '150212566213', '212023251223', 'john@email.com', 'Teknologi Pemesinan', 'boy.png'),
-(4, 'Black', 'Widow', '161220124732', '220232231024', 'wblack@yuhuu.com', 'Teknologi Perisikan', 'girl.png'),
-(5, 'Thor', 'Odin', '123', '456', 'thor@email.com', 'Lighting', 'man.png'),
-(6, 'Tony', 'Stark', '456', '123', 'ironman@email.com', 'Robotic', 'man.png'),
-(7, 'Captain', 'America', '789', '654', 'captain@email.com', 'Avengers', 'boy.png');
+(1, 'Muhammad Riyani', 'Makhtar', '000505101023', '190405062002', 'riyani@yehaa.com', 'Teknologi Keselamataan Siber', '000505101023.png'),
+(2, 'Cahaya Purnama', 'Malam Terang', '011011436226', '200405062001', 'cahaya@purnama.com', 'Teknologi Jahitan Pakaian', '011011436226.png'),
+(3, 'John', 'Doe', '150212566213', '212023251223', 'john@email.com', 'Teknologi Pemesinan', '150212566213.png'),
+(4, 'Black', 'Widow', '161220124732', '220232231024', 'wblack@yuhuu.com', 'Teknologi Perisikan', '161220124732.png'),
+(5, 'Thor', 'Odin', '911239856321', '456', 'thor@email.com', 'Lighting', '911239856321.png'),
+(6, 'Tony', 'Stark', '847896321546', '123', 'ironman@email.com', 'Robotic', '847896321546.png'),
+(7, 'Captain', 'America', '852134679582', '654', 'captain@email.com', 'Avengers', '852134679582.png'),
+(8, 'Test', 'Test1', '123456789741', '987456123965', 'test@email.com', 'Cooking', '123456789741.png'),
+(9, 'Aman', 'Buble', '963214785264', '213564879524', 'aman@email.com', 'Swimming', '963214785264.png');
 
 --
 -- Indexes for dumped tables
@@ -69,7 +71,7 @@ ALTER TABLE `pelajar`
 -- AUTO_INCREMENT for table `pelajar`
 --
 ALTER TABLE `pelajar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
