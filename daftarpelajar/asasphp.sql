@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2024 at 04:11 PM
+-- Generation Time: Mar 10, 2024 at 04:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `asasphp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login`
+--
+
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`id`, `username`, `password`) VALUES
+(1, 'riyani', '$2y$10$4j8xcPyIZL.VNv2haOJRROfeVmQ9ZsxULQ6oD63POswnX1ZyIl1dq'),
+(2, 'admin', '$2y$10$kUtDZDZrigUW6ym3ZSdwXecvIiIcYzYEBp1vFrwGKIK9AhF2qGwGG');
 
 -- --------------------------------------------------------
 
@@ -50,12 +70,18 @@ INSERT INTO `pelajar` (`id`, `fname`, `lname`, `nokp`, `ndp`, `email`, `kursus`,
 (5, 'Thor', 'Odin', '911239856321', '456', 'thor@email.com', 'Lighting', '911239856321.png'),
 (6, 'Tony', 'Stark', '847896321546', '123', 'ironman@email.com', 'Robotic', '847896321546.png'),
 (7, 'Captain', 'America', '852134679582', '654', 'captain@email.com', 'Avengers', '852134679582.png'),
-(8, 'Test', 'Test1', '123456789741', '987456123965', 'test@email.com', 'Cooking', '123456789741.png'),
+(8, 'Test', 'Test1', '123456789741', '987456123965', 'test@email.com', 'Masakan', '123456789741.png'),
 (9, 'Aman', 'Buble', '963214785264', '213564879524', 'aman@email.com', 'Swimming', '963214785264.png');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `pelajar`
@@ -66,6 +92,12 @@ ALTER TABLE `pelajar`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `login`
+--
+ALTER TABLE `login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pelajar`

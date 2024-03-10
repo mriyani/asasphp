@@ -209,3 +209,37 @@ function cari($condb, $keyword)
     // Process the $rows data
     return $rows;
 }
+
+function register($condb, $data)
+{
+    $username = strtolower(stripslashes($data['username']));
+    $password = mysqli_real_escape_string($condb, $data['password']);
+    $repeatPassword = mysqli_real_escape_string($condb, $data['password2']);
+
+    // Cek existing user
+    $result = mysqli_query($condb, "SELECT username FROM login WHERE username = '$username'");
+
+    if (mysqli_fetch_assoc($result)) {
+
+        echo "<script>
+                alert('Username sudah digunakan!');
+              </script>";
+        return false;
+    }
+
+    // Cek pengesahan password
+    if ($password != $repeatPassword) {
+        echo "<script>
+                alert('Password tidak sama!') 
+            </script>";
+        return false;
+    }
+
+    // Encrypt password
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    // Tambah user ke dalam database
+    $query = mysqli_query($condb, "INSERT INTO login VALUES('', '$username', '$password')");
+
+    return mysqli_affected_rows($condb);
+}
