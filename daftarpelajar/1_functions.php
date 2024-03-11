@@ -149,6 +149,19 @@ function emptyGambar($condb, $nokp)
 // Fungsi delete pelajar
 function padampelajar($condb, $id)
 {
+
+    // Get the gambar from the pelajar record
+    $query = "SELECT gambar FROM pelajar WHERE id = $id";
+    $result = mysqli_query($condb, $query);
+    $row = mysqli_fetch_assoc($result);
+    $imgName = $row['gambar'];
+
+    // Delete the image associated with the nokp
+    $imgDir = '../img/';
+    $imgFile = $imgDir . $imgName;
+    unlink($imgFile);
+
+    // Delete the record from the database
     mysqli_query($condb, "DELETE FROM pelajar WHERE id = $id");
 
     return mysqli_affected_rows($condb);
