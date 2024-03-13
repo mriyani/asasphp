@@ -13,6 +13,9 @@ if (isset($_POST['login'])) {
         // Cek password
         $row = mysqli_fetch_assoc($result);
         if (password_verify($password, $row['password'])) {
+            // Set session
+            $_SESSION['login'] = true;
+
             header("Location: index.php");
             exit;
         }
@@ -35,7 +38,7 @@ if (isset($_POST['login'])) {
 <body>
     <h1>Login Page</h1>
 
-    <?php if (isset($error)) : ?>
+    <?php if (isset($error)): ?>
         <p style="color: red; font-style: italic">Username / Password SALAH!</p>
     <?php endif; ?>
 

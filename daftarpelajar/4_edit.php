@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header('Location: 6_login.php');
+    exit;
+}
 
 // Panggil fail function
 require_once '1_functions.php';
@@ -67,7 +73,7 @@ if (isset($_POST['submit'])) {
             <li>
                 <label for="fname">First Name:</label><br>
                 <input type="text" name="fname" id="fname" required value="<?=
-                                                                            $fname ?>">
+                    $fname ?>">
             </li>
             <br>
             <li>

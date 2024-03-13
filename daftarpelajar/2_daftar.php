@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (!isset($_SESSION['login'])) {
+    header('Location: 6_login.php');
+    exit;
+}
 
 // Panggil fail function
 require_once '1_functions.php';
