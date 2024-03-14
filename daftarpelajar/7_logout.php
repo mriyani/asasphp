@@ -6,4 +6,3 @@ session_destroy();
 
 header('Location: 6_login.php');
 exit;
-

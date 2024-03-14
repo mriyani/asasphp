@@ -252,7 +252,7 @@ function register($condb, $data)
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     // Tambah user ke dalam database
-    $query = mysqli_query($condb, "INSERT INTO login VALUES('', '$username', '$password')");
+    mysqli_query($condb, "INSERT INTO login VALUES('', '$username', '$password')");
 
     return mysqli_affected_rows($condb);
 }

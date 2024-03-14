@@ -1,18 +1,19 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['login'])) {
-    header('Location: 6_login.php');
-    exit;
-}
-
 require_once '1_functions.php';
 
 if (isset($_POST['register'])) {
 
+    if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['password2'])) {
+        echo "<script>alert('Please fill up all of the fields');
+              document.location.href = '5_registration.php';
+              </script>";
+        exit;
+    }
+
     if (register($condb, $_POST) > 0) {
         echo "<script>
              alert('Registration Successful! Please login to continue');
+             document.location.href = '6_login.php';
              </script>";
     } else {
         echo mysqli_error($condb);
